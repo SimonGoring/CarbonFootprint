@@ -1,10 +1,4 @@
 
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 # Transportation, Electricity, Natural Gas
 
 library(shiny)
@@ -19,8 +13,11 @@ shinyServer(function(input, output, session) {
   e_use <- read.csv('data/energy_use.csv')
   
   output$distPlot <- renderPlot({
-
-    e_use$electricity <- e_use$electricity * sum(width_calc() * c(0.2, 0.8, 1.50)) / 100
+    
+    e_use$transportation <- e_use$transportation * 2400  # L fuel to g Carbon / L fuel.
+    e_use$natural_gas    <- e_use$natural_gas    * 453   # kwh to g Carbon / kwh
+    e_use$electricity    <- e_use$electricity * width_calc()[2] / 100 * 453 +
+      e_use$electricity * width_calc()[3] / 100 * 1024
     
     if (input$classes == 'All') {
       
@@ -39,18 +36,45 @@ shinyServer(function(input, output, session) {
     colnames(elec_use)[3] <- 'measurement'
     
     ggplot(elec_use, aes(x = measurement, fill = as.factor(day))) + 
-      geom_histogram(bins = input$bins, alpha = 0.5) +
-      xlab('Carbon Footprint') +
-      ylab('Individuals') +
+      geom_histogram(bins = input$bins, alpha = 0.9, color = 'black') +
+      xlab('Carbon Footprint (kg of Carbon)') +
+      ylab('Number of Individuals') +
       theme_bw() +
+      scale_fill_manual(values = c('#F78D3F', '#2BBBD8')) +
       theme(
         panel.background = element_rect(fill = "transparent"),
-        plot.background = element_rect(fill = "transparent", color = 'black'),
-        axis.text = element_text(size = 12),
-        axis.title = element_text(size = 18))
+        plot.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 16, color = '#000000'),
+        axis.title = element_text(size = 20),
+        legend.position = 'none')
 
   }, bg="transparent")
 
+  output$boxPlot <- renderPlot({
+    
+    e_use$transportation <- e_use$transportation * 2400  # L fuel to g Carbon / L fuel.
+    e_use$natural_gas    <- e_use$natural_gas    * 453   # kwh to g Carbon / kwh
+    e_use$electricity    <- e_use$electricity * width_calc()[2] / 100 * 453 +
+      e_use$electricity * width_calc()[3] / 100 * 1024
+    
+    e_use <- e_use %>% gather(consumption, measurement, electricity:natural_gas)
+    
+    ggplot(e_use, aes(x = consumption, fill = as.factor(day), y = measurement)) + 
+      geom_boxplot(alpha = 0.9) +
+      theme_bw() +
+      scale_x_discrete(labels = c('Electricity', 'Natural Gas', 'Transportation')) +
+      xlab('Energy Consumption') +
+      ylab('kg of Carbon') +
+      theme(
+        panel.background = element_rect(fill = "transparent"),
+        plot.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 16, color = '#000000'),
+        axis.title = element_text(size = 20),
+        legend.position = 'none') + 
+      scale_fill_manual(values = c('#F78D3F', '#2BBBD8'))
+    
+  })
+  
   output$renewable <- renderImage({ 
     return(list(
       src = 'images/noun_909391_cc.svg',
@@ -75,4 +99,12 @@ shinyServer(function(input, output, session) {
     ))
   }, deleteFile = FALSE)  
 
+  output$donut <- renderImage({ 
+    return(list(
+      src = 'images/noun_781313_cc.svg',
+      contentType = 'image/svg+xml'
+    ))
+  }, deleteFile = FALSE)  
+  
+  
 })
