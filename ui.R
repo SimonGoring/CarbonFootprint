@@ -29,7 +29,7 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
           border-color:#000;
           border-width:2px;
           font-color: #000;
-          width:30%; 
+          width:20%; 
           height:auto; 
           padding:10%;
           display:inline-table;}
@@ -40,7 +40,7 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
           border-color:#000;
           border-width:2px;
           background-color:#2BBBD8; 
-          width:30%; 
+          width:20%; 
           height:auto; 
           padding:10%;
           display:inline-table;
@@ -62,7 +62,7 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
          text-align: top;
          letter-spacing: 3px;
          text-shadow: 2px 2px silver;
-         font-size:100px;
+         font-size:70px;
          left: 0; 
          width: 100%; 
       }
@@ -94,7 +94,7 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
     mainPanel(
       fluidRow(class = 'icon-row', style='padding:0px;border-color:black;',
                column(2, align='center', HTML(paste0('<div class="child"><h2>Donuts</h2><img src="noun_781313_cc.svg" width = "100%"',
-                                                     'alt="" /><h5>', 90, '</h5></div>'))),
+                                                     'alt="" /><h5>', textOutput('donut_wt'), '</h5></div>'))),
         column(9, offset = 1, style='border-style:solid;border-color:black;border-width:2px;margin-bottom:20px;',
           fluidRow(column(3, align="center", HTML("<h3>Renewables</h3>")),
           column(3, align="center", HTML("<h3>Natural Gas</h3>")),

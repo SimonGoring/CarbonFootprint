@@ -106,5 +106,15 @@ shinyServer(function(input, output, session) {
     ))
   }, deleteFile = FALSE)  
   
+  output$donut_wt <- renderText({
+    e_use$transportation <- e_use$transportation * 2400  # L fuel to g Carbon / L fuel.
+    e_use$natural_gas    <- e_use$natural_gas    * 453   # kwh to g Carbon / kwh
+    e_use$electricity    <- e_use$electricity * width_calc()[2] / 100 * 453 +
+      e_use$electricity * width_calc()[3] / 100 * 1024
+    e_use$all <- e_use %>% select(electricity:natural_gas) %>% rowSums
+    
+    return(as.character(mean(e_use$all, na.rm=TRUE)))
+      
+  })
   
 })
