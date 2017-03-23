@@ -12,10 +12,12 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
 
   tags$head(
     tags$style(HTML("
+      
 
+    body{background-color: #F9F5F4;}
       .icon-row{height:100%px;padding:1%;}
 
-      .donut-box{height:100%px;padding:3%;border-color:#000;}
+      .donut-box{height:100%px;padding:8%;border-color:#000;}
 
       .clearfix::after {
           content: '';
@@ -24,6 +26,7 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
       }
       .color-box-d1{
           float:left;
+          vertical-align:middle;
           background-color:#F78D3F;
           border-style:solid;
           border-color:#000;
@@ -31,19 +34,26 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
           font-color: #000;
           width:20%; 
           height:auto; 
-          padding:10%;
+          padding:30px;
           display:inline-table;}
 
       .color-box-d2 {
           float:left;
+          vertical-align:middle;
           border-style:solid;
           border-color:#000;
           border-width:2px;
           background-color:#2BBBD8; 
           width:20%; 
           height:auto; 
-          padding:10%;
+          padding:30px;
           display:inline-table;
+      }
+
+      .color-text {
+          vertical-align:middle;
+          margin: 23px 0 0 5px;
+          padding: 5px 5px;
       }
 
       .child {
@@ -59,10 +69,10 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
       
       h5 { 
          position: absolute;
-         text-align: top;
+         text-align: center;
          letter-spacing: 3px;
          text-shadow: 2px 2px silver;
-         font-size:70px;
+         font-size:3vw;
          left: 0; 
          width: 100%; 
       }
@@ -85,9 +95,9 @@ shinyUI(fluidPage(theme = shinytheme('journal'),
       HTML("<h2>Electricity Source</h2>"),
       sliderInput('select_coal', "Renewable, Natural Gas, Coal", min = 0, max = 100, value = c(10, 49), step = 1),
       HTML("<h2>Legend</h2>"),
-      HTML('<div class=clearfix><div class=color-box-d1>Day 1</div> <b>Baseline Observation Date</b>.  Students were expected to observe energy consumption on a "normal" day.</div>'),
-      
-      HTML('<div class=clearfix><div class=color-box-d2>Day 2</div> <b>Energy Conservation Date</b>. Students were expected to try their best to reduct their consumption.</div>')
+      HTML('<div class=clearfix><div class=color-box-d1><h4>Day 1</h4></div><div class=color-text><b>Baseline Observation Date</b>.  Students were expected to observe energy consumption on a "normal" day.</div></div>'),
+      HTML('<br>'),
+      HTML('<div class=clearfix><div class=color-box-d2><h4>Day 2</h4></div><div class=color-text><b>Energy Conservation Date</b>. Students were expected to try their best to reduce their consumption.</div></div>')
     ),
 
     # Show a plot of the generated distribution

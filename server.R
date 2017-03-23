@@ -113,7 +113,10 @@ shinyServer(function(input, output, session) {
       e_use$electricity * width_calc()[3] / 100 * 1024
     e_use$all <- e_use %>% select(electricity:natural_gas) %>% rowSums
     
-    return(as.character(mean(e_use$all, na.rm=TRUE)))
+    dnts <- mean(e_use$all, na.rm=TRUE) /365 / 0.036
+    dnts <- round(dnts, -1 * nchar(strsplit(as.character(dnts), '.', fixed = TRUE)[[1]][1]) + 2)
+    
+    return(as.character(dnts))
       
   })
   
