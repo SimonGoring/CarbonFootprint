@@ -25,3 +25,6 @@ vignettes/*.pdf
 *.knit.md
 packrat/lib*/
 .Rproj.user
+*.Rproj
+.Rprofile
+
